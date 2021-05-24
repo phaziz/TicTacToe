@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Skynet's TicTacToe</title>
+</head>
+
+<body>
+	<div class="container">
+		<center>
+			<script>
+				let allFields = ['f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9'];
+				let countr = 0;
+				let xArray = [];
+				let oArray = [];
+				let clickerX = 0;
+				let clickerO = 0;
+				let end = false;
+				// Mögliche Gewinn-Kombinationen bei TicTacToe
+				let combinations = [
+					[1, 2, 3],
+					[4, 5, 6],
+					[7, 8, 9],
+					[1, 4, 7],
+					[2, 5, 8],
+					[3, 6, 9],
+					[7, 5, 3],
+					[1, 5, 9]
+				];
+
+				// Hier werden Spielinformationen dargestellt
+				var infoField = null;
+				setTimeout(() => {
+					infoField = document.getElementById('info');
+				}, 500)
+
+				// Ganzzahlen Zufallsfunktion 
+				let rand = (min, max) => {
+					return (Math.random() * (max - min) + min).toFixed(0);
+				}
+
+				// Funktion um das Spiel nach dem Ende automatisch neu zu starten
+				let resetTheGame = () => {
+					setTimeout(() => {
+						window.location.reload()
+					}, 3000);
+				}
+
+				// Skynet = Terminator - wir wissen alle wie das geendet ist
+				// REKURSIVE FUNKTION ZUM SETZEN EINES SPIELZUGS FÜR SPIELER O (Computer)
+				let Skynet = () => {
+					// Beginner
+					// Einfach stumpf per Zufall ein leeres Feld zwischen f1 und f9
+					// finden und belegen
+					let fieldNumber = rand(1, 9);
+					let actField = document.getElementById('f' + fieldNumber);
+					let actFieldText = 'f' + fieldNumber;
+
+					// Ansonsten, wenn f5 frei ist...
+					if ('' === document.getElementById('f5').textContent) {
+						actField = document.getElementById('f5');
+						actFieldText = 'f5';
+						fieldNumber = 5;
+					}
+
+					// Schauen ob es schon eine Kombi mit 2 Treffern für X gibt
+					for (var u = 0; u < combinations.length; u++) {
+						let wtf = 0;
+
+						xArray.forEach(elementOAI2 => {
+							if (-1 !== combinations[u].indexOf(elementOAI2)) {
+								wtf++;
+							}
+						});
+
+						if (2 === wtf) {
+							combinations[u].forEach(elementOAI2 => {
+								if ('' === document.getElementById('f' + elementOAI2).textContent) {
+									actField = document.getElementById('f' + elementOAI2);
+									actFieldText = 'f' + elementOAI2;
+									fieldNumber = elementOAI2;
+								}
+							});
+						}
+					}
+
+					// Oder direkt für Spieler O gucken...dann können wir das Spiel beenden
+					// Schauen ob es schon eine Kombi mit 2 Trefffern für O gibt
+					for (var g = 0; g < combinations.length; g++) {
+						let wtf = 0;
+
+						oArray.forEach(elementOAI2 => {
+							if (-1 !== combinations[g].indexOf(elementOAI2)) {
+								wtf++;
+							}
+						});
+
+						if (2 === wtf) {
+							combinations[g].forEach(elementOAI2 => {
+								if ('' === document.getElementById('f' + elementOAI2).textContent) {
+									actField = document.getElementById('f' + elementOAI2);
+									actFieldText = 'f' + elementOAI2;
+									fieldNumber = elementOAI2;
+								}
+							});
+						}
+					}
+
+					// Hier wird letztendlich das Feld gesetzt und alle Spielwerte angepasst
+					if ('' === actField.textContent) {
+						actField.textContent = 'O';
+						oArray.push(Number(fieldNumber));
+						clickerO++;
+
+						for (var z = 0; z < combinations.length; z++) {
+							let matchOAI6 = 0;
+
+							oArray.forEach(elementOAI2 => {
+								if (-1 !== combinations[z].indexOf(elementOAI2)) {
+									matchOAI6++;
+								}
+							});
+
+							if (3 === matchOAI6) {
+								end = true;
+
+								if (!!infoField)
+									infoField.innerHTML = '<b style="color:green;">Gewonnen hat Spieler O!</b>';
+
+								resetTheGame();
+							}
+						}
+
+						countr++;
+
+						if (9 === countr && false === end) {
+							end = true;
+
+							if (!!infoField)
+								infoField.innerHTML = '<b style="color:red;">UNENTSCHIEDEN!</b>';
+
+							resetTheGame();
+						}
+					} else {
+						Skynet();
+					}
+				}
+
+				// Spielzug entgegennehmen
+				let setSymbol = (field) => {
+					if (true === end) {
+						return false;
+					}
+
+					let fieldParts = field.split('');
+					let symbol = '';
+					let actField = document.getElementById(field);
+					let actFieldValue = actField.textContent;
+
+					if ('' === actFieldValue) {
+						xArray.push(Number(fieldParts[1]));
+						clickerX++;
+						actField.textContent = 'X';
+
+						for (var z = 0; z < combinations.length; z++) {
+							var matchX = 0;
+
+							xArray.forEach(elementX => {
+								if (-1 !== combinations[z].indexOf(elementX)) {
+									matchX++;
+								}
+							});
+
+							if (3 === matchX) {
+								end = true;
+
+								if (!!infoField)
+									infoField.innerHTML = '<b style="color:green;">Gewonnen hat Spieler X!</b>';
+
+								resetTheGame();
+							}
+						}
+
+						countr++;
+
+						if (9 === countr && false === end) {
+							end = true;
+
+							if (!!infoField)
+								infoField.innerHTML = '<b style="color:red;">UNENTSCHIEDEN</b>';
+
+							resetTheGame();
+						} else {
+							if (false === end) {
+								Skynet();
+							}
+						}
+					}
+				}
+			</script>
+
+			<p>Skynet's TicTacToe</p>
+
+			<table id="tictactoe" border="1">
+				<tr>
+					<td id="f1" height="100" width="100" align="center" onclick="setSymbol('f1');"></td>
+					<td id="f2" height="100" width="100" align="center" onclick="setSymbol('f2');"></td>
+					<td id="f3" height="100" width="100" align="center" onclick="setSymbol('f3');"></td>
+				</tr>
+				<tr>
+					<td id="f4" height="100" width="100" align="center" onclick="setSymbol('f4');"></td>
+					<td id="f5" height="100" width="100" align="center" onclick="setSymbol('f5');"></td>
+					<td id="f6" height="100" width="100" align="center" onclick="setSymbol('f6');"></td>
+				</tr>
+				<tr>
+					<td id="f7" height="100" width="100" align="center" onclick="setSymbol('f7');"></td>
+					<td id="f8" height="100" width="100" align="center" onclick="setSymbol('f8');"></td>
+					<td id="f9" height="100" width="100" align="center" onclick="setSymbol('f9');"></td>
+				</tr>
+			</table>
+
+			<p id="info">Viel Glück!</p>
+
+		</center>
+	</div>
+
+</body>
+
+</html>
