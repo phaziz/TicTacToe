@@ -5,7 +5,25 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Skynet's TicTacToe</title>
+	<title>TicTacToe</title>
+	<style>
+
+			html, body{
+				font-family: sans-serif;
+				font-size: 25px;
+				font-weight: 500;
+			}
+
+			td.cell{
+				margin: 10 10 10 10;
+				background: #000;
+				color: #fff;
+				font-family: sans-serif;
+				font-size: 25px;
+				font-weight: 800;
+			}
+
+	</style>
 </head>
 
 <body>
@@ -37,7 +55,7 @@
 					infoField = document.getElementById('info');
 				}, 500)
 
-				// Ganzzahlen Zufallsfunktion 
+				// Ganzzahlen Zufallsfunktion
 				let rand = (min, max) => {
 					return (Math.random() * (max - min) + min).toFixed(0);
 				}
@@ -202,23 +220,23 @@
 				}
 			</script>
 
-			<p>Skynet's TicTacToe</p>
+			<p>TicTacToe</p>
 
-			<table id="tictactoe" border="1">
+			<table id="tictactoe">
 				<tr>
-					<td id="f1" height="100" width="100" align="center" onclick="setSymbol('f1');"></td>
-					<td id="f2" height="100" width="100" align="center" onclick="setSymbol('f2');"></td>
-					<td id="f3" height="100" width="100" align="center" onclick="setSymbol('f3');"></td>
+					<td class="cell" id="f1" height="100" width="100" align="center" onclick="setSymbol('f1');"></td>
+					<td class="cell" id="f2" height="100" width="100" align="center" onclick="setSymbol('f2');"></td>
+					<td class="cell" id="f3" height="100" width="100" align="center" onclick="setSymbol('f3');"></td>
 				</tr>
 				<tr>
-					<td id="f4" height="100" width="100" align="center" onclick="setSymbol('f4');"></td>
-					<td id="f5" height="100" width="100" align="center" onclick="setSymbol('f5');"></td>
-					<td id="f6" height="100" width="100" align="center" onclick="setSymbol('f6');"></td>
+					<td class="cell" id="f4" height="100" width="100" align="center" onclick="setSymbol('f4');"></td>
+					<td class="cell" id="f5" height="100" width="100" align="center" onclick="setSymbol('f5');"></td>
+					<td class="cell" id="f6" height="100" width="100" align="center" onclick="setSymbol('f6');"></td>
 				</tr>
 				<tr>
-					<td id="f7" height="100" width="100" align="center" onclick="setSymbol('f7');"></td>
-					<td id="f8" height="100" width="100" align="center" onclick="setSymbol('f8');"></td>
-					<td id="f9" height="100" width="100" align="center" onclick="setSymbol('f9');"></td>
+					<td class="cell" id="f7" height="100" width="100" align="center" onclick="setSymbol('f7');"></td>
+					<td class="cell" id="f8" height="100" width="100" align="center" onclick="setSymbol('f8');"></td>
+					<td class="cell" id="f9" height="100" width="100" align="center" onclick="setSymbol('f9');"></td>
 				</tr>
 			</table>
 
